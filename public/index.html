@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@1.x/dist/vuetify.min.css" rel="stylesheet">
+  <link rel="icon" href="https://img.icons8.com/external-phatplus-lineal-color-phatplus/64/null/external-check-calculator-tools-phatplus-lineal-color-phatplus.png" type="image/png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  <style>
+    .done {
+      text-decoration: line-through;
+    }
+    [v-cloak] {
+      display: none;
+    }
+    v-list-item {
+      display: flex;
+    }
+    v-list-item-content {
+      margin-top: 10px;
+      margin-left: 20px;
+    }
+    #app {
+      font-size: 25px;
+    }
+    v-list-item-subtitle {
+      font-size: 10px;
+    }
+    /* html { */
+    /*   font-size: 20px; */
+    /* } */
+  </style>
+  <title>ToDo List</title>
+</head>
+<body>
+<div id="app" v-cloak>
+  <v-app :dark="isDark">
+    <v-toolbar color="blue darken-4" dark>
+      <v-toolbar-side-icon></v-toolbar-side-icon>
+      <v-toolbar-title class="headline">ToDo List</v-toolbar-title>
+
+      <v-spacer></v-spacer>
+
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn icon @click="show = !show" v-on="on">
+            <v-icon v-model="isDark" @click="isDark = !isDark">{{ show ? 'check_circle' : 'check_circle_outline' }}
+            </v-icon>
+          </v-btn>
+        </template>
+        <span>{{isDark ? 'Light theme' : 'Dark theme'}}</span>
+      </v-tooltip>
+    </v-toolbar>
+    <v-container>
+      <v-layout row justify-center>
+        <v-flex xs12>
+          <v-card>
+            <v-list two-line subheader>
+              <v-container>
+                <v-subheader class="headline">
+                  {{new Date() | date}}
+                </v-subheader>
+                <v-spacer></v-spacer>
+
+                <p class="text-xs-right"><b>{{todos.length}}</b> Tasks</p>
+
+                <v-flex xs12>
+                  <v-text-field
+                          clearable
+                          v-model="todoTitle"
+                          id="newTodo"
+                          name="newTodo"
+                          label="Please, enter task name"
+                          @keyup.enter="addTodo"
+                          :dark="isDark"
+                  >
+                  </v-text-field>
+                </v-flex>
+              </v-container>
+              <!-- ------------------------------------------------------------------------------------------------------- -->
+              <v-subheader class="subheading" v-if="todos.length === 0">
+                You have 0 tasks , please, add new.
+              </v-subheader>
+              <v-subheader class="subheading" v-else>
+                Your tasks
+              </v-subheader>
+              <div v-for="(todo, i) in todos" :key="i">
+                <v-list-item avatar>
+                  <v-list-item-action>
+                    <v-checkbox
+                            v-if="!todo.done"
+                            v-model="todo.done"
+                            @change="completeTodo(todo.id)"
+                            :dark="isDark"
+                    ></v-checkbox>
+                  </v-list-item-action>
+                  <v-list-item-content>
+                    <v-list-item-title :class="{done: todo.done}" title-smth>
+                      {{todo.title | capitalize}}
+                    </v-list-item-title>
+                    <v-list-item-subtitle>
+                      Added: {{todo.createdAt | date(true)}}
+                      (Updated: {{todo.updatedAt | date(true)}})
+                    </v-list-item-subtitle>
+                  </v-list-item-content>
+                  <v-btn icon ripple color="red" @click="removeTodo(todo.id)">
+                    <v-icon class="white--text">close</v-icon>
+                  </v-btn>
+                </v-list-item>
+              </div>
+              <!-- ------------------------------------------------------------------------------------------------------- -->
+
+              <!-- ------------------------------------------------------------------------------------------------------- -->
+
+            </v-list>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </v-container>
+  </v-app>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@1.x/dist/vuetify.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
