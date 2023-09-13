@@ -24,10 +24,3 @@ This is my *vision* for the implementation of the *task of creating a ToDo list*
 8. In browser search bar type next text `http://localhost:3000/`
 9. Enjoy it!
 **********
-**How does it look like**:eyes:
-
-*Dark mode*
-![howdoesitlooklikedark](first-version/src/howdoesitlooklike1.png)
-*Light mode*
-![howdoesitlooklikelight](first-version/src/howdoesitlooklike2.png)
-**********
